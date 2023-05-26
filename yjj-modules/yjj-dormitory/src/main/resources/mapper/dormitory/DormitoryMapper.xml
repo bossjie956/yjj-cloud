@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjj.dormitory.mapper.DormitoryMapper">
+    
+    <resultMap type="Dormitory" id="DormitoryResult">
+        <result property="id"    column="id"    />
+        <result property="phone"    column="phone"    />
+        <result property="name"    column="name"    />
+        <result property="storey"    column="storey"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+
+    <sql id="selectDormitoryVo">
+        select id, phone, name, storey, address from dormitory
+    </sql>
+
+    <select id="selectDormitoryList" parameterType="Dormitory" resultMap="DormitoryResult">
+        <include refid="selectDormitoryVo"/>
+        <where>  
+            <if test="phone != null "> and phone = #{phone}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="storey != null  and storey != ''"> and storey = #{storey}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+        </where>
+    </select>
+    
+    <select id="selectDormitoryById" parameterType="Long" resultMap="DormitoryResult">
+        <include refid="selectDormitoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDormitory" parameterType="Dormitory" useGeneratedKeys="true" keyProperty="id">
+        insert into dormitory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phone != null">phone,</if>
+            <if test="name != null">name,</if>
+            <if test="storey != null">storey,</if>
+            <if test="address != null">address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phone != null">#{phone},</if>
+            <if test="name != null">#{name},</if>
+            <if test="storey != null">#{storey},</if>
+            <if test="address != null">#{address},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDormitory" parameterType="Dormitory">
+        update dormitory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="storey != null">storey = #{storey},</if>
+            <if test="address != null">address = #{address},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDormitoryById" parameterType="Long">
+        delete from dormitory where id = #{id}
+    </delete>
+
+    <delete id="deleteDormitoryByIds" parameterType="String">
+        delete from dormitory where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

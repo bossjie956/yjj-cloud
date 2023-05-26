@@ -1,0 +1,3 @@
+com.yjj.system.api.factory.RemoteUserFallbackFactory
+com.yjj.system.api.factory.RemoteLogFallbackFactory
+com.yjj.system.api.factory.RemoteFileFallbackFactory

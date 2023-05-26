@@ -1,0 +1,2 @@
+com.yjj.common.log.service.AsyncLogService
+com.yjj.common.log.aspect.LogAspect

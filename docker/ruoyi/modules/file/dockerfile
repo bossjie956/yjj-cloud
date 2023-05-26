@@ -1,0 +1,15 @@
+# 基础镜像
+FROM  openjdk:8-jre
+# author
+MAINTAINER yjj
+
+# 挂载目录
+VOLUME /home/yjj
+# 创建目录
+RUN mkdir -p /home/yjj
+# 指定路径
+WORKDIR /home/yjj
+# 复制jar文件到路径
+COPY ./jar/yjj-modules-file.jar /home/yjj/yjj-modules-file.jar
+# 启动文件服务
+ENTRYPOINT ["java","-jar","yjj-modules-file.jar"]
